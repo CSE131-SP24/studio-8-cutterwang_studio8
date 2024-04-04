@@ -5,18 +5,18 @@ import java.util.Scanner;
 public class Quiz {
 
 	private Question[] questions;
-	
+
 	public Quiz(Question[] questions) {
 		this.questions = questions;
 	}
-	
+
 	private String getUserAnswer() {
 		Scanner in = new Scanner(System.in);
 		System.out.print("Please enter your answer: ");
 		String out = in.next();
 		return out;
 	}
-	
+
 	public int getTotalPoints() {
 		int sum = 0;
 		for(Question q : questions) {
@@ -24,11 +24,23 @@ public class Quiz {
 		}
 		return sum;
 	}
-	
+
 	public void takeQuiz() {
+		int totalPoints=0;
+		for (int i=0; i<questions.length; i++) {
+			questions[i].displayPrompt();
+			int counterPoints = questions[i].checkAnswer(this.getUserAnswer());
+
+			System.out.println("points earned: " + counterPoints);
+			
+			totalPoints +=counterPoints;
+		}
+		
+		System.out.println(totalPoints);
+		System.out.println(getTotalPoints());
 		//FIXME
 	}
-	
+
 	public static void main(String[] args) {
 		Question q = new Question("What number studio is this?", "8", 2);
 
@@ -39,7 +51,7 @@ public class Quiz {
 		Question selectAll = new SelectAllQuestion("Select all of the following that can be found within a class:", "13", choices);
 
 		Question[] questions = {q, multipleChoice, selectAll}; //create and add more questions!
-		
+
 		Quiz studio8quiz = new Quiz(questions);
 		studio8quiz.takeQuiz();
 	}
